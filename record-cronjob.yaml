@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: recorder
+spec:
+  schedule: "0 0 * * *"  # Runs every day at midnight (adjust to your preferred time)
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: recorder 
+        spec:
+          containers:
+          - name: recorder 
+            image: gunenes/recorder:latest  # Replace with your image
+            command: ["python", "create-record.py"]  # Replace with your actual script
+          restartPolicy: OnFailure  # Ensures the job restarts on failure
+
